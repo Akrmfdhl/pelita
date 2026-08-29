@@ -12,7 +12,7 @@ export const AppShell: React.FC = () => {
       <footer className="border-t border-canvas-border bg-canvas-surface py-6">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-ink-muted">
           <div>
-            Pelita — Platform AI Integritas & Advokasi Perlindungan Konsumen Pinjaman Online.
+            Pelita - Platform AI Integritas & Advokasi Perlindungan Konsumen Pinjaman Online.
           </div>
           <div className="font-mono">
             Satgas PASTI | OJK | AFPI | Bareskrim Polri

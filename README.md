@@ -165,7 +165,7 @@ npm run build
 
 <div align="center">
 
-**Pelita — Menegakkan Integritas Finansial & Keadilan Konsumen Digital**  
-*Dikembangkan untuk IT FEST 2026 — Human-Centered AI with Integrity*
+**Pelita - Menegakkan Integritas Finansial & Keadilan Konsumen Digital**  
+*Dikembangkan untuk IT FEST 2026 - Human-Centered AI with Integrity*
 
 </div>
