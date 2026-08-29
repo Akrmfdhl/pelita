@@ -1,4 +1,4 @@
-export type RiskLevel = 'low' | 'medium' | 'danger' | 'illegal_entity';
+export type RiskLevel = 'low' | 'medium' | 'danger' | 'illegal_entity' | 'high';
 export type Severity = 'info' | 'warning' | 'critical';
 
 export interface ViolationResult {
@@ -28,6 +28,7 @@ export interface EvidenceItem {
   sender_phone: string;
   message_text: string;
   threat_category: string;
+  message_timestamp_hour?: number;
   violations: ViolationResult[];
   created_at: string;
 }

@@ -2,9 +2,68 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer components {
-  .stamp-badge {
-    @apply font-mono text-xs uppercase tracking-wider font-semibold px-2.5 py-1 rounded-sm border inline-flex items-center gap-1.5 transition-transform;
-    transform: rotate(-2deg);
+@layer base {
+  :root {
+    --canvas-paper: #FBF9F5;
+    --canvas-surface: #FFFFFF;
+    --canvas-subtle: #F4EFEB;
+    --canvas-border: #E5DDD3;
+    --ink-primary: #1A2530;
+    --ink-muted: #5C6A79;
+    --ink-navy: #15222E;
+    --stamp-red: #B83232;
+    --stamp-amber: #C07A1E;
+    --stamp-teal: #1D7A68;
   }
+
+  body {
+    background-color: var(--canvas-paper);
+    color: var(--ink-primary);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+@layer utilities {
+  .bg-grid-pattern {
+    background-size: 24px 24px;
+    background-image: 
+      linear-gradient(to right, rgba(229, 221, 211, 0.4) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(229, 221, 211, 0.4) 1px, transparent 1px);
+  }
+
+  .tactile-btn {
+    transition: transform 0.1s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+  }
+  .tactile-btn:hover {
+    transform: translateY(-1px);
+  }
+  .tactile-btn:active {
+    transform: translateY(1px) scale(0.99);
+  }
+
+  .stamp-seal {
+    box-shadow: inset 0 0 0 2px currentColor;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+}
+
+@keyframes stampImpact {
+  0% {
+    transform: scale(1.4) rotate(-6deg);
+    opacity: 0;
+  }
+  70% {
+    transform: scale(0.95) rotate(-2deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) rotate(-3deg);
+    opacity: 1;
+  }
+}
+
+.animate-stamp {
+  animation: stampImpact 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
