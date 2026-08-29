@@ -79,6 +79,9 @@ func loadDotEnv(filepath string) {
 			}
 		}
 	}
+	if err := scanner.Err(); err != nil {
+		return
+	}
 }
 
 func getEnv(key, fallback string) string {
