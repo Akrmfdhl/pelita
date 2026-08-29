@@ -21,6 +21,22 @@ func NewService(ruleEngine *rules.RuleEngine, encryptor *security.Encryptor) *Se
 	}
 }
 
+func (s *Service) ListCases(ctx context.Context, userID string) ([]CaseDetailResponse, error) {
+	return []CaseDetailResponse{
+		{
+			ID:                      "case-active-1",
+			CaseTitle:               "Intimidasi Penagihan Pinjol Dana Kilat",
+			PlatformName:            "Pinjaman Dana Kilat",
+			DebtCollectorIdentifier: "+6289512345678",
+			ClaimedDebtAmount:       2500000,
+			Status:                  "active",
+			CaseSummary:             "Teror ancaman sebar kontak dan penagihan di luar jam operasional resmi.",
+			Items:                   []EvidenceItemResponse{},
+			CreatedAt:               time.Now().Add(-24 * time.Hour).Format(time.RFC3339),
+		},
+	}, nil
+}
+
 func (s *Service) CreateCase(ctx context.Context, userID string, req CreateCaseRequest) (*CaseDetailResponse, error) {
 	caseID := uuid.New().String()
 	return &CaseDetailResponse{

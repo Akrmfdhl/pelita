@@ -15,8 +15,32 @@ func NewHandler(service *Service) *Handler {
 
 func (h *Handler) RegisterRoutes(router fiber.Router) {
 	group := router.Group("/evidence")
+	group.Get("/cases", h.ListCases)
 	group.Post("/cases", h.CreateCase)
 	group.Post("/cases/:id/items", h.AddEvidenceItem)
+}
+
+func (h *Handler) ListCases(c *fiber.Ctx) error {
+	userID, ok := c.Locals(auth.CtxUserIDKey).(string)
+	if !ok || userID == "" {
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+			"status":  "error",
+			"message": "Unauthorized user session",
+		})
+	}
+
+	res, err := h.service.ListCases(c.Context(), userID)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"status":  "error",
+			"message": err.Error(),
+		})
+	}
+
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{
+		"status": "success",
+		"data":   res,
+	})
 }
 
 func (h *Handler) CreateCase(c *fiber.Ctx) error {

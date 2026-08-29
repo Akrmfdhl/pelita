@@ -16,11 +16,27 @@ func NewHandler(service *Service) *Handler {
 func (h *Handler) RegisterRoutes(router fiber.Router) {
 	group := router.Group("/literacy")
 	group.Get("/modules", h.ListModules)
+	group.Get("/quizzes", h.ListQuizzes)
 	group.Post("/quiz/submit", h.SubmitQuizAnswer)
 }
 
 func (h *Handler) ListModules(c *fiber.Ctx) error {
 	res, err := h.service.ListModules(c.Context())
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"status":  "error",
+			"message": err.Error(),
+		})
+	}
+
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{
+		"status": "success",
+		"data":   res,
+	})
+}
+
+func (h *Handler) ListQuizzes(c *fiber.Ctx) error {
+	res, err := h.service.ListQuizzes(c.Context())
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"status":  "error",
