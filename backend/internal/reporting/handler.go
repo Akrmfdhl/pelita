@@ -17,6 +17,9 @@ func (h *Handler) RegisterRoutes(router fiber.Router) {
 	group := router.Group("/reporting")
 	group.Post("/chat", h.HandleChat)
 	group.Post("/drafts", h.GenerateDraft)
+
+	assistant := router.Group("/assistant")
+	assistant.Post("/chat", h.HandleChat)
 }
 
 func (h *Handler) HandleChat(c *fiber.Ctx) error {

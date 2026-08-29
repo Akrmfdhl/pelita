@@ -7,30 +7,41 @@ export default {
   theme: {
     extend: {
       colors: {
-        canvas: {
-          paper: "#F9F8F6",
-          surface: "#FFFFFF",
-          subtle: "#F3EFE6",
-          border: "#E2DBD0",
+        butter: {
+          DEFAULT: "#FFEC89",
+          light: "#FFF4B8",
+          dark: "#F5DF6B",
         },
-        ink: {
-          primary: "#1A1F2C",
-          muted: "#5A6474",
-          navy: "#182238",
+        rust: {
+          DEFAULT: "#BA3801",
+          hover: "#9A2E01",
+          light: "rgba(186, 56, 1, 0.15)",
+          border: "rgba(186, 56, 1, 0.35)",
         },
-        stamp: {
-          red: "#C53030",
-          'red-bg': "#FFF5F5",
-          amber: "#DD6B20",
-          'amber-bg': "#FFFAF0",
-          teal: "#234E52",
-          'teal-bg': "#E6FFFA",
+        navy: {
+          DEFAULT: "#4A69B3",
+          dark: "#1E2C4F",
+          card: "#2A3A63",
+          muted: "#2E3E6E",
+          light: "#6884C7",
+          border: "rgba(74, 105, 179, 0.35)",
+        },
+        status: {
+          emerald: "#10B981",
+          'emerald-bg': "#ECFDF5",
+          'emerald-border': "#A7F3D0",
+          crimson: "#EF4444",
+          'crimson-bg': "#FEF2F2",
+          'crimson-border': "#FECACA",
+          amber: "#F59E0B",
+          'amber-bg': "#FFFBEB",
+          'amber-border': "#FDE68A",
         }
       },
       fontFamily: {
-        serif: ['"IBM Plex Serif"', 'serif'],
-        sans: ['"IBM Plex Sans"', 'sans-serif'],
-        mono: ['"IBM Plex Mono"', 'monospace'],
+        display: ['"Inter Tight"', 'sans-serif'],
+        sans: ['"Inter"', '"Plus Jakarta Sans"', 'sans-serif'],
+        mono: ['"Fira Code"', '"Geist Mono"', 'monospace'],
       },
     },
   },

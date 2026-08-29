@@ -1,105 +1,103 @@
-import React from 'react';
-import { Shield, FileSearch, FolderArchive, MessageSquareText, BookOpen, PhoneCall } from 'lucide-react';
-import { NavLink } from 'react-router-dom';
+import React, { useState } from 'react';
+import { NavLink, Link, useNavigate } from 'react-router-dom';
+import {
+  FileCheck,
+  ShieldAlert,
+  MessageSquareText,
+  BookOpen,
+  LogIn,
+  LogOut,
+  User,
+  Menu,
+  X,
+} from 'lucide-react';
+import { performLogout } from '../../lib/firebase';
 
 export const Navbar: React.FC = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const userName = localStorage.getItem('pelita_user_name');
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await performLogout();
+    navigate('/');
+  };
+
+  const navItems = [
+    { to: '/scanner', label: 'Pemindai Kontrak', icon: FileCheck },
+    { to: '/evidence', label: 'Penyusun Bukti', icon: ShieldAlert },
+    { to: '/assistant', label: 'Asisten Pelaporan', icon: MessageSquareText },
+    { to: '/literacy', label: 'Literasi Mikro', icon: BookOpen },
+  ];
+
   return (
-    <header className="sticky top-0 z-50 bg-canvas-surface/95 backdrop-blur border-b border-canvas-border shadow-sm">
-      <div className="bg-ink-navy text-canvas-paper text-[11px] font-mono py-1 px-4 text-center tracking-wider flex items-center justify-between max-w-7xl mx-auto">
-        <span className="flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-stamp-teal animate-pulse" />
-          <span>Pelita Rule Engine: POJK No. 10/2022 &amp; POJK No. 22/2023 Aktif</span>
-        </span>
-        <span className="hidden sm:flex items-center gap-4 text-canvas-subtle">
-          <span className="flex items-center gap-1">
-            <PhoneCall className="w-3 h-3 text-stamp-amber" /> Hotline OJK: 157
-          </span>
-          <span>AFPI: 150 505</span>
-        </span>
-      </div>
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-        <NavLink to="/" className="flex items-center gap-3 group">
-          <div className="w-10 h-10 rounded bg-ink-navy flex items-center justify-center text-canvas-paper font-serif font-bold text-xl border border-canvas-border shadow-sm group-hover:scale-[1.02] transition-transform">
-            P
+    <header className="sticky top-4 z-50 max-w-7xl mx-auto px-4 w-full">
+      <div className="bg-white border-2 border-[#4A69B3] rounded-full px-5 py-2.5 shadow-xl shadow-[#1E2C4F]/10 flex items-center justify-between gap-4">
+        <Link to="/" className="flex items-center gap-2.5 group">
+          <div className="w-8 h-8 rounded-full bg-[#BA3801] text-white flex items-center justify-center font-bold text-xs shadow-xs group-hover:scale-105 transition-transform">
+            <span className="font-mono">P</span>
           </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="font-serif font-bold text-xl text-ink-primary tracking-tight">PELITA</span>
-              <span className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-canvas-subtle border border-canvas-border text-ink-navy font-semibold">
-                v1.0
-              </span>
-            </div>
-            <span className="block text-[11px] font-mono text-ink-muted uppercase tracking-wider">
-              Advokasi Integritas Konsumen AI
-            </span>
+          <div className="flex flex-col">
+            <span className="font-extrabold text-base tracking-tight text-[#1E2C4F] leading-none">PELITA</span>
+            <span className="text-[9px] font-mono font-bold text-[#BA3801] tracking-widest uppercase">Advokasi Konsumen</span>
           </div>
-        </NavLink>
+        </Link>
 
-        <nav className="hidden md:flex items-center gap-1.5 bg-canvas-subtle p-1 rounded-lg border border-canvas-border">
-          <NavLink
-            to="/"
-            end
-            className={({ isActive }) =>
-              `px-3.5 py-1.5 rounded-md text-xs font-medium transition-all flex items-center gap-2 ${
-                isActive
-                  ? 'bg-canvas-surface text-ink-navy shadow-sm font-semibold border border-canvas-border'
-                  : 'text-ink-muted hover:text-ink-primary hover:bg-canvas-surface/50'
-              }`
-            }
-          >
-            <FileSearch className="w-4 h-4 text-ink-navy" />
-            Pemindai Kontrak
-          </NavLink>
-          <NavLink
-            to="/evidence"
-            className={({ isActive }) =>
-              `px-3.5 py-1.5 rounded-md text-xs font-medium transition-all flex items-center gap-2 ${
-                isActive
-                  ? 'bg-canvas-surface text-ink-navy shadow-sm font-semibold border border-canvas-border'
-                  : 'text-ink-muted hover:text-ink-primary hover:bg-canvas-surface/50'
-              }`
-            }
-          >
-            <FolderArchive className="w-4 h-4 text-ink-navy" />
-            Penyusun Bukti
-          </NavLink>
-          <NavLink
-            to="/assistant"
-            className={({ isActive }) =>
-              `px-3.5 py-1.5 rounded-md text-xs font-medium transition-all flex items-center gap-2 ${
-                isActive
-                  ? 'bg-canvas-surface text-ink-navy shadow-sm font-semibold border border-canvas-border'
-                  : 'text-ink-muted hover:text-ink-primary hover:bg-canvas-surface/50'
-              }`
-            }
-          >
-            <MessageSquareText className="w-4 h-4 text-ink-navy" />
-            Asisten Pelaporan
-          </NavLink>
-          <NavLink
-            to="/literacy"
-            className={({ isActive }) =>
-              `px-3.5 py-1.5 rounded-md text-xs font-medium transition-all flex items-center gap-2 ${
-                isActive
-                  ? 'bg-canvas-surface text-ink-navy shadow-sm font-semibold border border-canvas-border'
-                  : 'text-ink-muted hover:text-ink-primary hover:bg-canvas-surface/50'
-              }`
-            }
-          >
-            <BookOpen className="w-4 h-4 text-ink-navy" />
-            Literasi Mikro
-          </NavLink>
+        <nav className="hidden md:flex items-center gap-1.5">
+          {navItems.map((item) => {
+            const Icon = item.icon;
+            return (
+              <NavLink
+                key={item.to}
+                to={item.to}
+                className={({ isActive }) =>
+                  `tactile-btn flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold transition-all ${
+                    isActive
+                      ? 'bg-[#BA3801] text-white shadow-md'
+                      : 'text-[#1E2C4F] hover:text-[#BA3801] hover:bg-[#FFEC89]'
+                  }`
+                }
+              >
+                <Icon className="w-3.5 h-3.5" />
+                <span>{item.label}</span>
+              </NavLink>
+            );
+          })}
         </nav>
 
-        <div className="flex items-center gap-2.5">
-          <div className="hidden lg:flex flex-col text-right">
-            <span className="text-[11px] font-semibold text-ink-primary">Kanal Verifikasi OJK</span>
-            <span className="text-[10px] font-mono text-stamp-teal">Terhubung ke Basis Data 2026</span>
-          </div>
-          <div className="w-8 h-8 rounded-full bg-stamp-teal-bg border border-stamp-teal flex items-center justify-center text-stamp-teal">
-            <Shield className="w-4 h-4" />
-          </div>
+        <div className="flex items-center gap-2">
+          {userName ? (
+            <div className="flex items-center gap-2">
+              <div className="hidden sm:flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white border-2 border-[#4A69B3]/40 text-xs font-bold text-[#1E2C4F]">
+                <User className="w-3.5 h-3.5 text-[#BA3801]" />
+                <span className="max-w-[100px] truncate">{userName}</span>
+              </div>
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="tactile-btn p-2 rounded-full text-[#2E3E6E] hover:text-rose-600 hover:bg-rose-50 transition-colors"
+                title="Keluar Akun"
+              >
+                <LogOut className="w-4 h-4" />
+              </button>
+            </div>
+          ) : (
+            <Link
+              to="/login"
+              className="tactile-btn flex items-center gap-1.5 bg-white border-2 border-[#4A69B3]/40 hover:bg-[#FFEC89] text-[#1E2C4F] px-4 py-1.5 rounded-full text-xs font-bold transition-all"
+            >
+              <LogIn className="w-3.5 h-3.5 text-[#BA3801]" />
+              <span>Masuk</span>
+            </Link>
+          )}
+
+          <button
+            type="button"
+            onClick={() => setIsOpen(!isOpen)}
+            className="md:hidden p-2 rounded-full text-[#1E2C4F] hover:bg-[#FFEC89]"
+          >
+            {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          </button>
         </div>
       </div>
     </header>

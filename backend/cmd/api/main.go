@@ -13,6 +13,7 @@ import (
 	"github.com/pelita/backend/internal/contracts"
 	"github.com/pelita/backend/internal/evidence"
 	"github.com/pelita/backend/internal/literacy"
+	"github.com/pelita/backend/internal/llm"
 	"github.com/pelita/backend/internal/reporting"
 	"github.com/pelita/backend/internal/rules"
 	"github.com/pelita/backend/internal/security"
@@ -28,14 +29,15 @@ func main() {
 
 	ruleEngine := rules.NewRuleEngine()
 	tokenVerifier := auth.NewMockTokenVerifier()
+	llmClient := llm.NewClient(cfg.GeminiAPIKey, cfg.GroqAPIKey)
 
-	contractsService := contracts.NewService(ruleEngine)
+	contractsService := contracts.NewService(ruleEngine, llmClient)
 	contractsHandler := contracts.NewHandler(contractsService)
 
 	evidenceService := evidence.NewService(ruleEngine, encryptor)
 	evidenceHandler := evidence.NewHandler(evidenceService)
 
-	reportingService := reporting.NewService()
+	reportingService := reporting.NewService(llmClient)
 	reportingHandler := reporting.NewHandler(reportingService)
 
 	literacyService := literacy.NewService()

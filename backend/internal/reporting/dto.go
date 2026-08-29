@@ -1,8 +1,14 @@
 package reporting
 
+type ChatHistoryItem struct {
+	Role    string `json:"role"`
+	Content string `json:"content"`
+}
+
 type ChatMessageRequest struct {
-	CaseID  string `json:"case_id,omitempty"`
-	Message string `json:"message"`
+	CaseID              string            `json:"case_id,omitempty"`
+	Message             string            `json:"message"`
+	ConversationHistory []ChatHistoryItem `json:"conversation_history,omitempty"`
 }
 
 type ChatMessageResponse struct {

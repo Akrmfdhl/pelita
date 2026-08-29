@@ -9,41 +9,49 @@ interface StampBadgeProps {
 }
 
 export const StampBadge: React.FC<StampBadgeProps> = ({ level, className = '', animate = true }) => {
-  const configs: Record<string, { label: string; sublabel: string; color: string; icon: typeof ShieldCheck; ringColor: string }> = {
+  const configs: Record<
+    string,
+    { label: string; sublabel: string; borderColor: string; textColor: string; bgColor: string; icon: typeof ShieldCheck }
+  > = {
     low: {
-      label: 'RESMI OJK',
-      sublabel: 'SESUAI REGULASI',
-      color: 'border-stamp-teal text-stamp-teal bg-stamp-teal-bg/60',
+      label: 'TERVERIFIKASI RESMI OJK',
+      sublabel: 'PATUH POJK NO. 10/2022 & SEOJK 19/2023',
+      borderColor: 'border-emerald-700',
+      textColor: 'text-emerald-950',
+      bgColor: 'bg-emerald-50',
       icon: ShieldCheck,
-      ringColor: 'ring-stamp-teal/20',
     },
     medium: {
-      label: 'PERINGATAN',
-      sublabel: 'KLAUSUL BERISIKO',
-      color: 'border-stamp-amber text-stamp-amber bg-stamp-amber-bg/60',
+      label: 'PERINGATAN RISIKO',
+      sublabel: 'TERDETEKSI KLAUSUL NON-STANDAR',
+      borderColor: 'border-amber-700',
+      textColor: 'text-amber-950',
+      bgColor: 'bg-amber-50',
       icon: ShieldAlert,
-      ringColor: 'ring-stamp-amber/20',
     },
     danger: {
-      label: 'BERBAHAYA',
-      sublabel: 'PELANGGARAN HUKUM',
-      color: 'border-stamp-red text-stamp-red bg-stamp-red-bg/60',
+      label: 'PERINGATAN KERAS: ILEGAL',
+      sublabel: 'PELANGGARAN POJK & INDIKASI PIDANA',
+      borderColor: 'border-rose-700',
+      textColor: 'text-rose-950',
+      bgColor: 'bg-rose-50',
       icon: ShieldX,
-      ringColor: 'ring-stamp-red/20',
     },
     high: {
-      label: 'ILEGAL',
-      sublabel: 'PELANGGARAN HUKUM',
-      color: 'border-stamp-red text-stamp-red bg-stamp-red-bg/60',
+      label: 'PERINGATAN KERAS: ILEGAL',
+      sublabel: 'PELANGGARAN POJK & INDIKASI PIDANA',
+      borderColor: 'border-rose-700',
+      textColor: 'text-rose-950',
+      bgColor: 'bg-rose-50',
       icon: ShieldX,
-      ringColor: 'ring-stamp-red/20',
     },
     illegal_entity: {
-      label: 'ILEGAL',
-      sublabel: 'TIDAK TERDAFTAR OJK',
-      color: 'border-stamp-red text-stamp-red bg-stamp-red-bg/60',
+      label: 'ENTITAS TIDAK BERIZIN OJK',
+      sublabel: 'TIDAK TERDAFTAR DALAM WHITELIST OJK',
+      borderColor: 'border-rose-700',
+      textColor: 'text-rose-950',
+      bgColor: 'bg-rose-50',
       icon: ShieldX,
-      ringColor: 'ring-stamp-red/20',
     },
   };
 
@@ -52,15 +60,17 @@ export const StampBadge: React.FC<StampBadgeProps> = ({ level, className = '', a
 
   return (
     <div
-      className={`inline-flex flex-col items-center justify-center border-2 border-dashed px-3.5 py-1.5 rounded-sm font-mono select-none shadow-sm ring-4 ${config.ringColor} ${config.color} ${
-        animate ? 'animate-stamp' : ''
+      className={`border-2 border-double ${config.borderColor} ${config.bgColor} ${config.textColor} px-4 py-2.5 rounded-2xl font-mono select-none shadow-sm flex items-center gap-3 ${
+        animate ? 'animate-fadeIn' : ''
       } ${className}`}
     >
-      <div className="flex items-center gap-1.5">
+      <div className="w-8 h-8 rounded-xl bg-white border border-current flex items-center justify-center shrink-0 shadow-2xs">
         <Icon className="w-4 h-4 stroke-[2.5]" />
-        <span className="font-bold text-sm tracking-widest">{config.label}</span>
       </div>
-      <span className="text-[9px] font-semibold tracking-wider opacity-90">{config.sublabel}</span>
+      <div>
+        <span className="font-extrabold text-xs tracking-wider block leading-tight">{config.label}</span>
+        <span className="text-[10px] font-semibold tracking-normal block text-opacity-90">{config.sublabel}</span>
+      </div>
     </div>
   );
 };

@@ -3,57 +3,80 @@ package reporting
 import (
 	"context"
 	"fmt"
-	"strings"
 	"time"
 
 	"github.com/google/uuid"
+	"github.com/pelita/backend/internal/llm"
 )
 
-type Service struct{}
+type Service struct {
+	llmClient *llm.Client
+}
 
-func NewService() *Service {
-	return &Service{}
+func NewService(llmClient *llm.Client) *Service {
+	return &Service{
+		llmClient: llmClient,
+	}
 }
 
 func (s *Service) HandleChat(ctx context.Context, userID string, req ChatMessageRequest) (*ChatMessageResponse, error) {
-	lower := strings.ToLower(req.Message)
+	var history []map[string]string
+	for _, m := range req.ConversationHistory {
+		history = append(history, map[string]string{
+			"role":    m.Role,
+			"content": m.Content,
+		})
+	}
 
-	suggestedChannel := "ojk"
-	articles := []string{"POJK No. 10/POJK.05/2022", "POJK No. 22/2023 Pasal 62"}
-	reply := "Berdasarkan permasalahan Anda, kami sarankan untuk mengumpulkan bukti pesan penagihan dan menyiapkan laporan ke portal resmi OJK Kontak 157 atau Posko Pengaduan AFPI. Penagih dilarang melakukan intimidasi atau menagih di luar jam operasional resmi."
+	retrievedCitations := []string{
+		"POJK No. 10/POJK.05/2022",
+		"POJK No. 22 Tahun 2023 Pasal 62",
+		"SEOJK No. 19/SEOJK.05/2023",
+		"UU No. 27/2022 tentang PDP Pasal 65",
+	}
 
-	if strings.Contains(lower, "sebar data") || strings.Contains(lower, "kontak darurat") {
-		suggestedChannel = "polri"
-		articles = append(articles, "UU No. 27/2022 tentang PDP Pasal 65", "Pasal 27B UU ITE")
-		reply = "Tindakan menyebarkan data pribadi atau foto Anda tanpa izin adalah tindak pidana menurut UU Perlindungan Data Pribadi Pasal 65 dan UU ITE Pasal 27B. Kami sarankan membuat draf surat aduan ke Bareskrim Polri (Patroli Siber) serta tembusan ke Satgas PASTI OJK."
+	reply := ""
+	if s.llmClient != nil {
+		r, citations, err := s.llmClient.ChatWithRAG(ctx, req.Message, history, retrievedCitations)
+		if err == nil && r != "" {
+			reply = r
+			retrievedCitations = citations
+		}
+	}
+
+	if reply == "" {
+		reply = "Berdasarkan regulasi POJK No. 22/2023 Pasal 62, penagihan hanya diperkenankan pada hari Senin - Sabtu pukul 08.00 - 20.00 waktu setempat, dilarang menggunakan intimidasi verbal atau ancaman, dan dilarang menyebarkan data pribadi kepada pihak ketiga selain kontak darurat resmi."
 	}
 
 	return &ChatMessageResponse{
 		Reply:            reply,
-		SuggestedChannel: suggestedChannel,
-		RelevantArticles: articles,
+		SuggestedChannel: "ojk_satgas_pasti",
+		RelevantArticles: retrievedCitations,
 	}, nil
 }
 
 func (s *Service) GenerateDraft(ctx context.Context, userID string, req GenerateComplaintDraftRequest) (*ComplaintDraftResponse, error) {
-	channelName := "Satgas PASTI & Konsumen OJK"
-	guidelines := "Kirimkan draf surat ini beserta lampiran berkas kronologis PDF ke email konsumen@ojk.go.id atau melalui WhatsApp resmi Kontak OJK 157 (081-157-157-157)."
-	portalURL := "https://kontak157.ojk.go.id"
-	email := "konsumen@ojk.go.id"
-	wa := "+6281157157157"
+	var channelName, guidelines, portalURL, email, wa string
 
-	if req.ChannelCode == "afpi" {
+	switch req.ChannelCode {
+	case "afpi":
 		channelName = "Posko Pengaduan AFPI"
 		guidelines = "Kirimkan laporan melalui form pengaduan resmi AFPI atau email pengaduan@afpi.or.id."
 		portalURL = "https://afpi.or.id/pengaduan"
 		email = "pengaduan@afpi.or.id"
 		wa = "+6281119550000"
-	} else if req.ChannelCode == "polri" {
+	case "polri":
 		channelName = "Sentra Pelayanan Kepolisian Terpadu (SPKT) / Siber Polri"
 		guidelines = "Bawa berkas kronologi cetak ke SPKT Polda/Polres terdekat atau daftarkan laporan di portal Patroli Siber Polri."
 		portalURL = "https://patrolisiber.id"
 		email = "lapor@patrolisiber.id"
 		wa = "110"
+	default:
+		channelName = "Satgas PASTI & Konsumen OJK"
+		guidelines = "Kirimkan draf surat ini beserta lampiran berkas kronologis PDF ke email konsumen@ojk.go.id atau melalui WhatsApp resmi Kontak OJK 157 (081-157-157-157)."
+		portalURL = "https://kontak157.ojk.go.id"
+		email = "konsumen@ojk.go.id"
+		wa = "+6281157157157"
 	}
 
 	dateStr := time.Now().Format("02 January 2006")
@@ -76,9 +99,10 @@ Nomor Telepon   : %s
 Dengan ini menyampaikan laporan resmi sehubungan dengan adanya tindakan penagihan yang melanggar hukum dan peraturan perundang-undangan Republik Indonesia (POJK No. 10/POJK.05/2022, POJK No. 22/2023, serta UU No. 27/2022 tentang Pelindungan Data Pribadi).
 
 Kronologi & Fakta Kejadian:
-1. Pihak penagih melakukan intimidasi verbal dan pengancaman di luar batas jam operasional resmi.
-2. Pihak penagih mengancam akan menyebarluaskan data pribadi saya secara melawan hukum.
-3. Bersama surat ini, saya lampirkan Berkas Bukti Kronologis Digital (PDF terverifikasi) beserta tangkapan layar percakapan.
+1. Pihak penagih melakukan intimidasi verbal dan pengancaman di luar batas jam operasional resmi (Pasal 62 POJK No. 22/2023).
+2. Pihak penagih mengancam akan menyebarluaskan data pribadi saya secara melawan hukum (Pasal 65 UU PDP No. 27/2022).
+3. Pengenaan bunga dan denda harian melampaui ketentuan batas maksimum manfaat ekonomi (SEOJK No. 19/SEOJK.05/2023).
+4. Bersama surat ini, saya lampirkan Berkas Bukti Kronologis Digital (PDF terverifikasi) beserta tangkapan layar percakapan.
 
 Demikian laporan pengaduan ini saya sampaikan dengan sebenar-benarnya agar dapat ditindaklanjuti sesuai hukum yang berlaku.
 

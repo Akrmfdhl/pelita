@@ -4,58 +4,51 @@
 
 @layer base {
   :root {
-    --canvas-paper: #FBF9F5;
-    --canvas-surface: #FFFFFF;
-    --canvas-subtle: #F4EFEB;
-    --canvas-border: #E5DDD3;
-    --ink-primary: #1A2530;
-    --ink-muted: #5C6A79;
-    --ink-navy: #15222E;
-    --stamp-red: #B83232;
-    --stamp-amber: #C07A1E;
-    --stamp-teal: #1D7A68;
+    --color-butter: #FFEC89;
+    --color-rust: #BA3801;
+    --color-navy: #4A69B3;
+    --color-navy-dark: #1E2C4F;
   }
 
   body {
-    background-color: var(--canvas-paper);
-    color: var(--ink-primary);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background-color: #FFEC89;
+    color: #1E2C4F;
+    font-family: "Inter", "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     -webkit-font-smoothing: antialiased;
   }
 }
 
 @layer utilities {
-  .bg-grid-pattern {
-    background-size: 24px 24px;
-    background-image: 
-      linear-gradient(to right, rgba(229, 221, 211, 0.4) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(229, 221, 211, 0.4) 1px, transparent 1px);
-  }
-
   .tactile-btn {
-    transition: transform 0.1s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+    transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.15s ease, background-color 0.15s ease;
   }
   .tactile-btn:hover {
     transform: translateY(-1px);
   }
   .tactile-btn:active {
-    transform: translateY(1px) scale(0.99);
+    transform: translateY(1px) scale(0.98);
   }
 
-  .stamp-seal {
-    box-shadow: inset 0 0 0 2px currentColor;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
+  .butter-card {
+    background-color: #FFFFFF;
+    border: 1px solid rgba(74, 105, 179, 0.30);
+    box-shadow: 0 10px 25px -4px rgba(30, 44, 79, 0.08);
+  }
+
+  .navy-dark-card {
+    background-color: #1E2C4F;
+    border: 1px solid rgba(255, 236, 137, 0.30);
+    box-shadow: 0 12px 32px -4px rgba(0, 0, 0, 0.5);
   }
 }
 
 @keyframes stampImpact {
   0% {
-    transform: scale(1.4) rotate(-6deg);
+    transform: scale(1.3) rotate(-5deg);
     opacity: 0;
   }
   70% {
-    transform: scale(0.95) rotate(-2deg);
+    transform: scale(0.97) rotate(-2deg);
     opacity: 1;
   }
   100% {
@@ -66,4 +59,18 @@
 
 .animate-stamp {
   animation: stampImpact 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes flowPulse {
+  0% {
+    stroke-dashoffset: 24;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+.animate-circuit-pulse {
+  stroke-dasharray: 6, 6;
+  animation: flowPulse 1.2s linear infinite;
 }

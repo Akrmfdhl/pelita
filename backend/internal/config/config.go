@@ -1,8 +1,10 @@
 package config
 
 import (
+	"bufio"
 	"os"
 	"strconv"
+	"strings"
 )
 
 type Config struct {
@@ -29,6 +31,8 @@ type Config struct {
 }
 
 func Load() *Config {
+	loadDotEnv(".env")
+
 	return &Config{
 		AppName:                 getEnv("APP_NAME", "pelita"),
 		AppEnv:                  getEnv("APP_ENV", "development"),
@@ -50,6 +54,30 @@ func Load() *Config {
 		FirebaseCredentialsJSON: getEnv("FIREBASE_CREDENTIALS_JSON", "./config/firebase-service-account.json"),
 		AppEncryptionKey:        getEnv("APP_ENCRYPTION_KEY", "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"),
 		EnableDemoFallbackCache: getEnvAsBool("ENABLE_DEMO_FALLBACK_CACHE", true),
+	}
+}
+
+func loadDotEnv(filepath string) {
+	file, err := os.Open(filepath)
+	if err != nil {
+		return
+	}
+	defer file.Close()
+
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		line := strings.TrimSpace(scanner.Text())
+		if line == "" || strings.HasPrefix(line, "#") {
+			continue
+		}
+		parts := strings.SplitN(line, "=", 2)
+		if len(parts) == 2 {
+			key := strings.TrimSpace(parts[0])
+			val := strings.TrimSpace(parts[1])
+			if os.Getenv(key) == "" {
+				_ = os.Setenv(key, val)
+			}
+		}
 	}
 }
 

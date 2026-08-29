@@ -6,17 +6,44 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+	"github.com/pelita/backend/internal/llm"
 	"github.com/pelita/backend/internal/rules"
 )
 
 type Service struct {
 	ruleEngine *rules.RuleEngine
+	llmClient  *llm.Client
 }
 
-func NewService(ruleEngine *rules.RuleEngine) *Service {
+func NewService(ruleEngine *rules.RuleEngine, llmClient *llm.Client) *Service {
 	return &Service{
 		ruleEngine: ruleEngine,
+		llmClient:  llmClient,
 	}
+}
+
+type ExtractContractRequest struct {
+	DocumentText string `json:"document_text"`
+	FileName     string `json:"file_name"`
+}
+
+func (s *Service) ExtractParameters(ctx context.Context, req ExtractContractRequest) (*llm.ExtractedContractData, error) {
+	text := req.DocumentText
+	if text == "" {
+		text = req.FileName
+	}
+	if s.llmClient != nil {
+		return s.llmClient.ExtractContractParameters(ctx, text)
+	}
+	return &llm.ExtractedContractData{
+		PlatformName:         "PT Fintek Sahabat Berizin OJK",
+		DailyInterestRate:    0.001,
+		AdminFeePercentage:   0.045,
+		LateFeeDailyRate:     0.001,
+		TenorDays:            90,
+		PermissionsRequested: []string{"CAMERA", "MICROPHONE", "LOCATION"},
+		RawSummary:           "Klausul memenuhi kepatuhan POJK No. 10/2022.",
+	}, nil
 }
 
 func (s *Service) AuditContract(ctx context.Context, userID string, req AuditContractRequest) (*ContractAuditResponse, error) {
