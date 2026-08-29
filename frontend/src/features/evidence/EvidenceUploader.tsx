@@ -12,7 +12,7 @@ import {
   FolderPlus,
   FolderArchive,
   Image as ImageIcon,
-  CheckCircle,
+  CheckCircle2,
 } from 'lucide-react';
 
 export const EvidenceUploader: React.FC = () => {
@@ -132,53 +132,61 @@ export const EvidenceUploader: React.FC = () => {
   };
 
   return (
-    <div className="space-y-8 max-w-7xl mx-auto">
-      <div className="border-b-2 border-[#4A69B3]/35 pb-5 flex flex-col md:flex-row md:items-end justify-between gap-4">
-        <div>
-          <div className="flex items-center gap-2 mb-1">
-            <ShieldAlert className="w-5 h-5 text-rose-600" />
-            <span className="font-mono text-xs font-bold uppercase tracking-wider text-rose-700">
-              Modul Advokasi Kuratif
-            </span>
-          </div>
-          <h1 className="text-3xl font-extrabold text-[#1E2C4F] tracking-tight">Penyusun Bukti &amp; Rekonstruksi Kronologi</h1>
-          <p className="text-[#2E3E6E] text-sm mt-1 max-w-2xl font-medium">
-            Ekstrak bukti teror dari tangkapan layar WhatsApp/SMS debt collector, tandai pelanggaran hukum secara otomatis
-            (UU PDP &amp; POJK 22/2023), dan susun berkas laporan resmi.
-          </p>
+    <div className="max-w-6xl mx-auto space-y-8 pb-12">
+      {/* Header Section */}
+      <div className="space-y-4 text-left">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/80 backdrop-blur-md border border-slate-200/80 text-slate-800 font-mono text-xs font-semibold shadow-2xs">
+          <span className="w-2 h-2 rounded-full bg-rose-600 animate-pulse" />
+          <span>Platform Advokasi Kuratif &amp; Investigasi Bukti</span>
         </div>
 
-        <div className="flex flex-wrap gap-2">
-          <button
-            type="button"
-            onClick={() => applyPreset('dox')}
-            className="tactile-btn text-xs font-mono font-bold px-3.5 py-1.5 rounded-full bg-rose-50 text-rose-950 border-2 border-rose-400 hover:bg-rose-100 flex items-center gap-1.5 shadow-xs"
-          >
-            <Zap className="w-3.5 h-3.5 text-rose-700" />
-            Preset: Ancaman Sebar KTP
-          </button>
-          <button
-            type="button"
-            onClick={() => applyPreset('night')}
-            className="tactile-btn text-xs font-mono font-bold px-3.5 py-1.5 rounded-full bg-amber-50 text-amber-950 border-2 border-amber-400 hover:bg-amber-100 flex items-center gap-1.5 shadow-xs"
-          >
-            <Clock className="w-3.5 h-3.5 text-amber-700" />
-            Preset: Teror Jam 23:00
-          </button>
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+          <div className="space-y-2 max-w-2xl">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-semibold text-[#1E2C4F] tracking-tight leading-[1.15]">
+              Penyusun Bukti &amp; <span className="text-[#BA3801]">Rekonstruksi Kronologi</span>
+            </h1>
+            <p className="text-[17px] text-[#2E3E6E] leading-[1.47] font-normal">
+              Ekstrak bukti teror dari tangkapan layar WhatsApp/SMS debt collector, tandai pelanggaran hukum secara otomatis (UU PDP dan POJK No. 22/2023), dan susun berkas laporan resmi.
+            </p>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-2">
+            <button
+              type="button"
+              onClick={() => applyPreset('dox')}
+              className="px-4 py-2 rounded-full text-xs font-medium bg-rose-50 hover:bg-rose-100/80 text-rose-900 border border-rose-200/80 transition-all duration-150 active:scale-95 flex items-center gap-1.5 shadow-2xs"
+            >
+              <Zap className="w-3.5 h-3.5 text-rose-600" />
+              <span>Preset: Ancaman Sebar Data</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => applyPreset('night')}
+              className="px-4 py-2 rounded-full text-xs font-medium bg-amber-50 hover:bg-amber-100/80 text-amber-900 border border-amber-200/80 transition-all duration-150 active:scale-95 flex items-center gap-1.5 shadow-2xs"
+            >
+              <Clock className="w-3.5 h-3.5 text-amber-600" />
+              <span>Preset: Teror Jam 23:00</span>
+            </button>
+          </div>
         </div>
       </div>
 
-      <div className="bg-white border-2 border-[#4A69B3] rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm">
+      {/* Case Switcher Card */}
+      <div className="rounded-3xl border border-slate-200/80 bg-white/90 backdrop-blur-xl p-5 sm:p-6 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm">
         <div className="flex items-center gap-3 w-full sm:w-auto">
-          <FolderArchive className="w-5 h-5 text-[#BA3801] shrink-0" />
-          <div className="flex-1">
-            <label className="block text-[11px] font-mono uppercase text-[#2E3E6E] font-bold">Berkas Kasus Aktif:</label>
+          <div className="w-10 h-10 rounded-2xl bg-slate-100 flex items-center justify-center shrink-0">
+            <FolderArchive className="w-5 h-5 text-[#BA3801]" />
+          </div>
+          <div className="flex-1 min-w-0">
+            <label className="block text-[11px] font-mono uppercase text-slate-500 font-medium">
+              Berkas Kasus Aktif:
+            </label>
             <select
               value={effectiveActiveCaseId}
               onChange={(e) => setActiveCaseId(e.target.value)}
-              className="bg-white border-2 border-[#4A69B3]/40 rounded-xl px-3 py-1.5 text-xs font-bold text-[#1E2C4F] focus:outline-none focus:border-[#BA3801]"
+              className="bg-transparent border-none p-0 text-sm font-semibold text-[#1E2C4F] focus:outline-none cursor-pointer"
             >
-              {cases.length === 0 && <option value="">(Belum Ada Kasus - Klik Buat Kasus Baru)</option>}
+              {cases.length === 0 && <option value="">(Belum Ada Kasus - Buat Kasus Baru)</option>}
               {cases.map((c) => (
                 <option key={c.id} value={c.id}>
                   {c.case_title} ({c.id.substring(0, 8)})
@@ -191,44 +199,51 @@ export const EvidenceUploader: React.FC = () => {
         <button
           type="button"
           onClick={() => setShowNewCaseModal(!showNewCaseModal)}
-          className="tactile-btn text-xs font-mono font-bold bg-white hover:bg-[#FFEC89] text-[#BA3801] border-2 border-[#BA3801] px-4 py-2 rounded-xl flex items-center gap-1.5 shrink-0"
+          className="w-full sm:w-auto px-5 py-2.5 rounded-full text-xs font-semibold bg-white hover:bg-slate-50 text-[#1E2C4F] border border-slate-200/90 transition-all duration-150 active:scale-95 flex items-center justify-center gap-2 shadow-2xs shrink-0"
         >
-          <FolderPlus className="w-4 h-4" />
-          Buat Berkas Kasus Baru
+          <FolderPlus className="w-4 h-4 text-[#BA3801]" />
+          <span>Buat Kasus Baru</span>
         </button>
       </div>
 
+      {/* Modal / Inline Creator for New Case */}
       {showNewCaseModal && (
-        <form onSubmit={handleCreateCase} className="p-4 bg-white border-2 border-[#4A69B3] rounded-2xl flex gap-3 animate-fadeIn shadow-md">
+        <form
+          onSubmit={handleCreateCase}
+          className="p-5 rounded-3xl border border-slate-200/80 bg-white/95 backdrop-blur-xl flex flex-col sm:flex-row gap-3 shadow-md animate-fadeIn"
+        >
           <input
             type="text"
             value={newCaseTitle}
             onChange={(e) => setNewCaseTitle(e.target.value)}
-            placeholder="Judul kasus (contoh: Teror Pinjol Abadi Dana)..."
-            className="flex-1 bg-white border-2 border-[#4A69B3]/40 rounded-xl px-3.5 py-2 text-xs font-bold text-[#1E2C4F] focus:outline-none focus:border-[#BA3801]"
+            placeholder="Judul kasus baru (contoh: Teror Penagihan Dana Abadi)..."
+            className="flex-1 bg-white border border-slate-200/80 rounded-2xl px-4 py-2.5 text-xs text-[#1E2C4F] font-medium focus:outline-none focus:border-[#BA3801] focus:ring-1 focus:ring-[#BA3801] transition-all"
             required
           />
           <button
             type="submit"
-            className="tactile-btn bg-[#BA3801] hover:bg-[#9A2E01] text-white px-5 py-2 rounded-xl text-xs font-mono font-bold"
+            className="bg-[#BA3801] hover:bg-[#9A2E01] text-white px-6 py-2.5 rounded-full text-xs font-semibold transition-all duration-150 active:scale-95 shadow-sm"
           >
             Simpan Kasus
           </button>
         </form>
       )}
 
+      {/* Main Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        <div className="lg:col-span-5 bg-white border-2 border-[#4A69B3] rounded-3xl p-6 sm:p-7 shadow-xl shadow-[#1E2C4F]/5 space-y-5">
-          <div className="flex items-center justify-between border-b border-[#4A69B3]/25 pb-3">
-            <h2 className="font-bold text-lg text-[#1E2C4F]">Input Pesan Teror</h2>
-            <span className="font-mono text-[11px] text-rose-950 bg-rose-50 px-2.5 py-0.5 rounded-md border border-rose-300 font-bold">
-              Enkripsi AES-256
+        {/* Left Column: Form Input Pesan Teror */}
+        <div className="lg:col-span-5 rounded-3xl border border-slate-200/80 bg-white/90 backdrop-blur-xl p-6 sm:p-8 shadow-sm space-y-6">
+          <div className="flex items-center justify-between pb-4 border-b border-slate-200/60">
+            <h2 className="font-semibold text-base text-[#1E2C4F]">Input Pesan Intimidasi</h2>
+            <span className="font-mono text-[11px] font-semibold text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full">
+              Privasi Terjamin
             </span>
           </div>
 
+          {/* Screenshot Dropzone */}
           <div
             onClick={() => fileInputRef.current?.click()}
-            className="border-2 border-dashed border-[#4A69B3] hover:border-[#BA3801] bg-white rounded-2xl p-4 text-center cursor-pointer transition-all"
+            className="border border-dashed border-slate-300 hover:border-slate-400 bg-slate-50/50 hover:bg-white rounded-2xl p-5 text-center cursor-pointer transition-all duration-150"
           >
             <input
               type="file"
@@ -241,15 +256,15 @@ export const EvidenceUploader: React.FC = () => {
                 }
               }}
             />
-            <ImageIcon className="w-6 h-6 text-[#BA3801] mx-auto mb-1.5" />
+            <ImageIcon className="w-6 h-6 text-[#BA3801] mx-auto mb-1.5 opacity-90" />
             {uploadedScreenshotName ? (
-              <div className="flex items-center justify-center gap-1.5 text-xs font-mono text-emerald-800 font-bold">
-                <CheckCircle className="w-3.5 h-3.5" />
+              <div className="flex items-center justify-center gap-1.5 text-xs font-mono text-emerald-800 font-semibold">
+                <CheckCircle2 className="w-3.5 h-3.5" />
                 <span>{uploadedScreenshotName}</span>
               </div>
             ) : (
-              <p className="text-xs text-[#2E3E6E] font-medium">
-                Lampirkan screenshot chat WhatsApp/SMS (opsional)
+              <p className="text-xs text-slate-600 leading-relaxed">
+                Lampirkan tangkapan layar chat WhatsApp/SMS (opsional)
               </p>
             )}
           </div>
@@ -257,21 +272,21 @@ export const EvidenceUploader: React.FC = () => {
           <form onSubmit={handleAddEvidence} className="space-y-4">
             <div className="grid grid-cols-3 gap-3">
               <div className="col-span-2">
-                <label className="block text-xs font-bold text-[#1E2C4F] mb-1.5">
-                  Nomor Telepon Penagih
+                <label className="block text-xs font-semibold text-[#1E2C4F] mb-1.5">
+                  Nomor Penagih
                 </label>
                 <input
                   type="text"
                   value={senderPhone}
                   onChange={(e) => setSenderPhone(e.target.value)}
                   placeholder="+6281234567890"
-                  className="w-full bg-white border-2 border-[#4A69B3]/40 rounded-2xl px-3.5 py-2.5 text-xs text-[#1E2C4F] font-mono focus:outline-none focus:ring-2 focus:ring-[#BA3801]/20 focus:border-[#BA3801] transition-all"
+                  className="w-full bg-white border border-slate-200/80 rounded-2xl px-3.5 py-2.5 text-xs text-[#1E2C4F] font-mono focus:outline-none focus:border-[#BA3801] focus:ring-1 focus:ring-[#BA3801] transition-all"
                   required
                 />
               </div>
               <div>
-                <label className="block text-xs font-bold text-[#1E2C4F] mb-1.5">
-                  Jam Kirim (WIB)
+                <label className="block text-xs font-semibold text-[#1E2C4F] mb-1.5">
+                  Waktu (WIB)
                 </label>
                 <input
                   type="number"
@@ -280,21 +295,21 @@ export const EvidenceUploader: React.FC = () => {
                   value={messageTimeHour}
                   onChange={(e) => setMessageTimeHour(e.target.value)}
                   placeholder="22"
-                  className="w-full bg-white border-2 border-[#4A69B3]/40 rounded-2xl px-3.5 py-2.5 text-xs text-[#1E2C4F] font-mono text-center focus:outline-none focus:ring-2 focus:ring-[#BA3801]/20 focus:border-[#BA3801] transition-all"
+                  className="w-full bg-white border border-slate-200/80 rounded-2xl px-3.5 py-2.5 text-xs text-[#1E2C4F] font-mono text-center focus:outline-none focus:border-[#BA3801] focus:ring-1 focus:ring-[#BA3801] transition-all"
                   required
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-[#1E2C4F] mb-1.5">
-                Teks Pesan Ancaman / Transkrip Chat
+              <label className="block text-xs font-semibold text-[#1E2C4F] mb-1.5">
+                Transkrip Pesan Teror
               </label>
               <textarea
                 rows={4}
                 value={messageText}
                 onChange={(e) => setMessageText(e.target.value)}
-                className="w-full bg-white border-2 border-[#4A69B3]/40 rounded-2xl px-3.5 py-2.5 text-xs text-[#1E2C4F] font-medium focus:outline-none focus:ring-2 focus:ring-[#BA3801]/20 focus:border-[#BA3801] transition-all"
+                className="w-full bg-white border border-slate-200/80 rounded-2xl px-3.5 py-2.5 text-xs text-[#1E2C4F] font-medium focus:outline-none focus:border-[#BA3801] focus:ring-1 focus:ring-[#BA3801] transition-all leading-relaxed"
                 placeholder="Masukkan transkrip pesan atau kata-kata ancaman penagih..."
                 required
               />
@@ -303,47 +318,50 @@ export const EvidenceUploader: React.FC = () => {
             <button
               type="submit"
               disabled={loading || !messageText.trim() || !effectiveActiveCaseId}
-              className="tactile-btn w-full bg-[#BA3801] hover:bg-[#9A2E01] text-white py-3 rounded-2xl font-bold text-xs transition-all flex items-center justify-center gap-2 shadow-md disabled:opacity-50"
+              className="w-full bg-[#BA3801] hover:bg-[#9A2E01] text-white py-3 rounded-full font-semibold text-sm transition-all duration-150 active:scale-95 shadow-sm disabled:opacity-50 flex items-center justify-center gap-2"
             >
               {loading ? (
                 <span className="flex items-center gap-2 font-mono text-xs">
-                  <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                  Mengekstrak &amp; Menandai Pasal...
+                  <span className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  Menganalisis Pasal Pelanggaran...
                 </span>
               ) : (
                 <>
                   <Plus className="w-4 h-4 text-[#FFEC89]" />
-                  Tambahkan ke Lini Masa Bukti
+                  <span>Tambahkan ke Lini Masa</span>
                 </>
               )}
             </button>
           </form>
         </div>
 
+        {/* Right Column: Lini Masa Bukti Kasus */}
         <div className="lg:col-span-7 space-y-4">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between pb-2">
             <div>
-              <h2 className="text-xl font-bold text-[#1E2C4F]">
-                Lini Masa Bukti Kasus ({items.length})
+              <h2 className="text-xl font-semibold text-[#1E2C4F] tracking-tight">
+                Lini Masa Bukti ({items.length})
               </h2>
-              <span className="text-xs text-[#2E3E6E] font-medium">Urutan kronologis untuk pelaporan ke OJK / Kepolisian</span>
+              <span className="text-xs text-slate-500 font-normal">
+                Urutan kronologis resmi untuk pelaporan ke OJK / Kepolisian
+              </span>
             </div>
 
             {items.length > 0 && (
               <button
                 type="button"
                 onClick={handleCopyDossier}
-                className="tactile-btn font-mono text-xs text-white bg-[#BA3801] hover:bg-[#9A2E01] px-4 py-2 rounded-full flex items-center gap-1.5 shadow-md font-bold"
+                className="px-5 py-2 rounded-full text-xs font-semibold bg-[#BA3801] hover:bg-[#9A2E01] text-white transition-all duration-150 active:scale-95 flex items-center gap-1.5 shadow-sm"
               >
                 {copiedDossier ? (
                   <>
                     <Check className="w-3.5 h-3.5 text-[#FFEC89]" />
-                    Berkas Tersalin!
+                    <span>Berkas Tersalin</span>
                   </>
                 ) : (
                   <>
                     <Copy className="w-3.5 h-3.5 text-[#FFEC89]" />
-                    Salin Berkas Kronologi
+                    <span>Salin Berkas Kronologi</span>
                   </>
                 )}
               </button>
@@ -351,15 +369,15 @@ export const EvidenceUploader: React.FC = () => {
           </div>
 
           {items.length === 0 ? (
-            <div className="bg-white border-2 border-dashed border-[#4A69B3] rounded-3xl p-12 text-center text-[#2E3E6E] shadow-sm">
-              <ShieldAlert className="w-12 h-12 text-[#BA3801] mx-auto mb-3" />
-              <h3 className="font-bold text-base text-[#1E2C4F]">Belum Ada Item Bukti</h3>
-              <p className="text-xs max-w-sm mx-auto mt-1 text-[#2E3E6E] font-medium">
-                Pilih salah satu preset skenario intimidasi di atas atau masukkan pesan chat untuk merekonstruksi kronologi.
+            <div className="rounded-3xl border border-dashed border-slate-200/90 bg-white/60 backdrop-blur-md p-12 text-center text-slate-500 shadow-2xs">
+              <ShieldAlert className="w-12 h-12 text-[#BA3801] mx-auto mb-3 opacity-90" />
+              <h3 className="font-semibold text-base text-[#1E2C4F]">Belum Ada Bukti Tercatat</h3>
+              <p className="text-xs max-w-sm mx-auto mt-1.5 text-slate-600 leading-relaxed">
+                Pilih salah satu preset skenario di atas atau masukkan transkrip pesan chat untuk merekonstruksi kronologi intimidasi.
               </p>
             </div>
           ) : (
-            <div className="space-y-3.5">
+            <div className="space-y-4">
               {items.map((item, idx) => {
                 const hour = item.message_timestamp_hour ?? 22;
                 const isLateNight = hour < 8 || hour >= 20;
@@ -367,26 +385,26 @@ export const EvidenceUploader: React.FC = () => {
                 return (
                   <div
                     key={idx}
-                    className="bg-white border-2 border-[#4A69B3] rounded-2xl p-5 shadow-xs space-y-3 relative group animate-fadeIn"
+                    className="rounded-3xl border border-slate-200/80 bg-white/90 backdrop-blur-xl p-5 sm:p-6 shadow-sm space-y-3.5 animate-fadeIn"
                   >
                     <div className="flex items-center justify-between text-xs font-mono">
                       <div className="flex items-center gap-2">
-                        <span className="font-bold text-white bg-[#BA3801] px-2.5 py-0.5 rounded-md">
+                        <span className="font-semibold text-white bg-[#1E2C4F] px-2.5 py-0.5 rounded-full text-[11px]">
                           Bukti #{idx + 1}
                         </span>
-                        <span className="text-[#1E2C4F] font-bold">{item.sender_phone}</span>
+                        <span className="text-[#1E2C4F] font-semibold">{item.sender_phone}</span>
                       </div>
 
                       <div className="flex items-center gap-2">
                         <span
-                          className={`px-2.5 py-0.5 rounded-md flex items-center gap-1 text-[11px] font-bold ${
+                          className={`px-3 py-1 rounded-full flex items-center gap-1.5 text-[11px] font-medium ${
                             isLateNight
-                              ? 'bg-rose-50 text-rose-950 border border-rose-300'
-                              : 'bg-white text-[#1E2C4F] border border-[#4A69B3]'
+                              ? 'bg-rose-50 text-rose-900 border border-rose-200/80'
+                              : 'bg-slate-100 text-slate-700'
                           }`}
                         >
                           <Clock className="w-3 h-3" />
-                          {hour}:00 WIB {isLateNight && '(Di Luar Jam Resmi)'}
+                          <span>{hour}:00 WIB {isLateNight && '(Di Luar Jam Resmi)'}</span>
                         </span>
                         <button
                           type="button"
@@ -400,26 +418,26 @@ export const EvidenceUploader: React.FC = () => {
                       </div>
                     </div>
 
-                    <blockquote className="border-l-4 border-[#BA3801] bg-[#FFEC89] p-3.5 rounded-r-xl text-xs sm:text-sm text-[#1E2C4F] italic leading-relaxed font-semibold">
+                    <blockquote className="border-l-2 border-[#BA3801] bg-slate-50/80 p-4 rounded-r-2xl text-[14px] text-[#1E2C4F] leading-relaxed font-normal">
                       "{item.message_text}"
                     </blockquote>
 
                     {item.violations.length > 0 && (
                       <div className="space-y-2 pt-1">
-                        <span className="font-mono text-[10px] font-bold uppercase tracking-wider text-rose-800 block">
-                          Pelanggaran Hukum Terkait:
+                        <span className="font-mono text-[11px] font-semibold text-rose-900 block">
+                          Pelanggaran Teridentifikasi:
                         </span>
                         {item.violations.map((v, vIdx) => (
                           <div
                             key={vIdx}
-                            className="bg-rose-50 border-2 border-rose-300 text-rose-950 p-3 rounded-xl text-xs space-y-0.5"
+                            className="bg-rose-50/60 border border-rose-200/70 text-rose-950 p-3.5 rounded-2xl text-xs space-y-1"
                           >
-                            <div className="flex items-center justify-between font-bold">
+                            <div className="flex items-center justify-between font-semibold">
                               <span>{v.violation_type}</span>
-                              <span className="font-mono text-[10px] text-slate-700">{v.rule_code}</span>
+                              <span className="font-mono text-[10px] text-slate-500">{v.rule_code}</span>
                             </div>
-                            <p className="font-mono text-[11px] text-[#1E2C4F] font-bold">Dasar: {v.statutory_article}</p>
-                            <p className="text-[11px] text-slate-800 leading-relaxed font-medium">{v.legal_explanation}</p>
+                            <p className="font-mono text-[11px] text-slate-700">Dasar: {v.statutory_article}</p>
+                            <p className="text-slate-600 leading-relaxed font-normal">{v.legal_explanation}</p>
                           </div>
                         ))}
                       </div>

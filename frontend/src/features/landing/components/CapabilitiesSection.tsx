@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import {
   FileCheck,
   ShieldAlert,
-  Sparkles,
+  BrainCircuit,
   BookOpen,
   Database,
 } from 'lucide-react';
@@ -96,7 +96,7 @@ export const CapabilitiesSection: React.FC = () => {
         <div className="bg-white border border-slate-200/80 rounded-2xl p-6 space-y-3 flex flex-col justify-between">
           <div className="space-y-2">
             <div className="w-10 h-10 rounded-xl bg-orange-50 text-[#BA3801] flex items-center justify-center">
-              <Sparkles className="w-5 h-5" />
+              <BrainCircuit className="w-5 h-5" />
             </div>
             <h4 className="font-semibold text-base text-[#1E2C4F]">Asisten Advokasi Regulasi</h4>
             <p className="text-xs text-[#2E3E6E] leading-relaxed font-normal">

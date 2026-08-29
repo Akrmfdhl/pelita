@@ -34,7 +34,7 @@ export const DashboardShell: React.FC = () => {
           isCollapsed ? 'lg:pl-[96px]' : 'lg:pl-[304px]'
         }`}
       >
-        <main className="flex-1 px-4 sm:px-8 py-6 sm:py-8 max-w-7xl w-full mx-auto animate-fadeIn">
+        <main className="flex-1 px-4 sm:px-8 pt-3 sm:pt-4 pb-8 max-w-7xl w-full mx-auto animate-fadeIn">
           <Outlet />
         </main>
       </div>

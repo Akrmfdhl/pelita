@@ -14,15 +14,17 @@ import { Register } from '../features/auth/Register';
 export const AppRoutes: React.FC = () => {
   return (
     <Routes>
-      {/* 1. Public Facing Shell (Navbar + Content + Compact Footer) */}
+      {/* 1. Public Facing Shell with Navbar & Footer */}
       <Route element={<PublicShell />}>
         <Route path="/" element={<LandingPage />} />
         <Route path="/literacy" element={<QuizCard />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
       </Route>
 
-      {/* 2. Protected Dashboard CMS Shell (Sidebar + Topbar + Content Area) */}
+      {/* 2. Standalone Auth Pages without Public Navbar */}
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+
+      {/* 3. Protected Dashboard CMS Shell (Sidebar + Workspace) */}
       <Route
         element={
           <ProtectedRoute>
