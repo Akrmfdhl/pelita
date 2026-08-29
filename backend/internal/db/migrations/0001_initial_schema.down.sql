@@ -1,0 +1,14 @@
+DROP TABLE IF EXISTS user_quiz_attempts;
+DROP TABLE IF EXISTS literacy_quizzes;
+DROP TABLE IF EXISTS literacy_modules;
+DROP TABLE IF EXISTS complaint_drafts;
+DROP TABLE IF EXISTS reporting_channels;
+DROP TABLE IF EXISTS evidence_violations;
+DROP TABLE IF EXISTS evidence_items;
+DROP TABLE IF EXISTS evidence_cases;
+DROP TABLE IF EXISTS contract_violations;
+DROP TABLE IF EXISTS contract_analyses;
+DROP TABLE IF EXISTS legal_regulation_chunks;
+DROP TABLE IF EXISTS legal_regulations;
+DROP TABLE IF EXISTS ojk_licensed_entities;
+DROP TABLE IF EXISTS users;

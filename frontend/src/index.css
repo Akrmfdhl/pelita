@@ -1,0 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .stamp-badge {
+    @apply font-mono text-xs uppercase tracking-wider font-semibold px-2.5 py-1 rounded-sm border inline-flex items-center gap-1.5 transition-transform;
+    transform: rotate(-2deg);
+  }
+}
