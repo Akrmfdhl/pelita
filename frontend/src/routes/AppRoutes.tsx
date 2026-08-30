@@ -8,6 +8,10 @@ import { ContractUpload } from '../features/contracts/ContractUpload';
 import { EvidenceUploader } from '../features/evidence/EvidenceUploader';
 import { AssistantChat } from '../features/reporting/AssistantChat';
 import { QuizCard } from '../features/literacy/QuizCard';
+import { EntityRadarPage } from '../features/radar/EntityRadarPage';
+import { LoanCalculatorPage } from '../features/calculator/LoanCalculatorPage';
+import { NationalStatsPage } from '../features/stats/NationalStatsPage';
+import { RegulationsDirectoryPage } from '../features/regulations/RegulationsDirectoryPage';
 import { Login } from '../features/auth/Login';
 import { Register } from '../features/auth/Register';
 
@@ -17,6 +21,10 @@ export const AppRoutes: React.FC = () => {
       {/* 1. Public Facing Shell with Navbar & Footer */}
       <Route element={<PublicShell />}>
         <Route path="/" element={<LandingPage />} />
+        <Route path="/radar" element={<EntityRadarPage />} />
+        <Route path="/calculator" element={<LoanCalculatorPage />} />
+        <Route path="/stats" element={<NationalStatsPage />} />
+        <Route path="/regulations" element={<RegulationsDirectoryPage />} />
         <Route path="/literacy" element={<QuizCard />} />
       </Route>
 
