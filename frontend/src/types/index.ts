@@ -92,16 +92,27 @@ export interface ChatHistoryItem {
   content: string;
 }
 
+export interface ExtractedMediaContext {
+  platform_name?: string;
+  sender_phone?: string;
+  threat_summary?: string;
+  detected_violations?: string[];
+}
+
 export interface ChatMessageRequest {
   case_id?: string;
   message: string;
   conversation_history?: ChatHistoryItem[];
+  attachment_base64?: string;
+  attachment_type?: string;
+  attachment_name?: string;
 }
 
 export interface ChatMessageResponse {
   reply: string;
   suggested_channel: string;
   relevant_articles: string[];
+  extracted_context?: ExtractedMediaContext;
 }
 
 export interface GenerateComplaintDraftRequest {
@@ -110,6 +121,8 @@ export interface GenerateComplaintDraftRequest {
   victim_name: string;
   victim_nik: string;
   victim_phone: string;
+  platform_name?: string;
+  violation_summary?: string;
 }
 
 export interface ComplaintDraftResponse {
@@ -130,6 +143,9 @@ export interface ChatMessage {
   content: string;
   timestamp: string;
   legal_citations?: string[];
+  attachment_preview?: string;
+  attachment_name?: string;
+  extracted_context?: ExtractedMediaContext;
 }
 
 export interface QuizOption {
