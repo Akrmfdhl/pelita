@@ -16,6 +16,7 @@ import {
   Scale,
 } from 'lucide-react';
 import { performEmailLogin, performEmailRegister } from '../../lib/firebase';
+import { PelitaLogo } from '../../components/brand/PelitaLogo';
 
 interface AuthLayoutProps {
   initialMode: 'login' | 'register';
@@ -158,10 +159,8 @@ export const AuthLayout: React.FC<AuthLayoutProps> = ({ initialMode }) => {
           }`}
         >
           <div className="space-y-4">
-            <div className="space-y-1.5">
-              <div className="w-10 h-10 rounded-2xl bg-[#BA3801] text-white font-mono font-bold flex items-center justify-center text-sm shadow-2xs">
-                P
-              </div>
+            <div className="space-y-2">
+              <PelitaLogo size="md" variant="horizontal" />
               <h1 className="text-2xl font-semibold text-[#1E2C4F] tracking-tight">Masuk Akun</h1>
               <p className="text-xs text-[#2E3E6E] font-normal leading-relaxed">
                 Akses berkas kasus aduan dan riwayat audit kontrak Anda.
@@ -276,10 +275,8 @@ export const AuthLayout: React.FC<AuthLayoutProps> = ({ initialMode }) => {
           }`}
         >
           <div className="space-y-3.5">
-            <div className="space-y-1">
-              <div className="w-10 h-10 rounded-2xl bg-[#BA3801] text-white font-mono font-bold flex items-center justify-center text-sm shadow-2xs">
-                P
-              </div>
+            <div className="space-y-2">
+              <PelitaLogo size="md" variant="horizontal" />
               <h1 className="text-2xl font-semibold text-[#1E2C4F] tracking-tight">Buat Akun Baru</h1>
               <p className="text-xs text-[#2E3E6E] font-normal leading-relaxed">
                 Mulai investigasi kontrak dan amankan bukti digital Anda.
@@ -462,10 +459,13 @@ export const AuthLayout: React.FC<AuthLayoutProps> = ({ initialMode }) => {
             <div className="absolute inset-0 bg-[#BA3801]/10 mix-blend-overlay" />
 
             {/* Top Brand Info */}
-            <div className="relative z-10 space-y-2">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 backdrop-blur-md border border-white/20 text-white font-mono text-[11px] font-semibold">
-                <Scale className="w-3.5 h-3.5 text-[#FFEC89]" />
-                <span>Integritas Hukum &amp; Advokasi</span>
+            <div className="relative z-10 space-y-3">
+              <div className="flex items-center justify-between">
+                <PelitaLogo size="md" variant="horizontal" theme="dark" />
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/15 backdrop-blur-md border border-white/20 text-white font-mono text-[10px] font-semibold">
+                  <Scale className="w-3 h-3 text-[#FFEC89]" />
+                  <span>Integritas Hukum</span>
+                </div>
               </div>
               <h2 className="text-2xl font-semibold tracking-tight text-white leading-tight">
                 {mode === 'login' ? 'Selamat Datang Kembali di Pelita' : 'Mulai Langkah Perlindungan Anda'}

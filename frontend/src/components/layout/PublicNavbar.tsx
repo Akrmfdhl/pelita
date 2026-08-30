@@ -23,7 +23,7 @@ export const PublicNavbar: React.FC = () => {
   const [userName, setUserName] = useState<string | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isExploreOpen, setIsExploreOpen] = useState(false);
-  const exploreRef = useRef<HTMLDivElement>(null);
+  const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -31,15 +31,18 @@ export const PublicNavbar: React.FC = () => {
     setUserName(localStorage.getItem('pelita_user_name'));
   }, [location]);
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (exploreRef.current && !exploreRef.current.contains(event.target as Node)) {
-        setIsExploreOpen(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+  const handleMouseEnter = () => {
+    if (hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+    }
+    setIsExploreOpen(true);
+  };
+
+  const handleMouseLeave = () => {
+    hoverTimeoutRef.current = setTimeout(() => {
+      setIsExploreOpen(false);
+    }, 150);
+  };
 
   const handleLogout = async () => {
     await performLogout();
@@ -84,15 +87,17 @@ export const PublicNavbar: React.FC = () => {
     { to: '/literacy', label: 'Literasi Mikro', icon: BookOpen },
   ];
 
+  const isExploreActive = ['/radar', '/calculator', '/stats', '/regulations'].includes(location.pathname);
+
   return (
-    <header className="sticky top-4 z-50 max-w-7xl mx-auto px-4 sm:px-6 w-full" ref={exploreRef}>
+    <header className="sticky top-4 z-50 max-w-7xl mx-auto px-4 sm:px-6 w-full">
       <div className="bg-gradient-to-b from-white/95 via-white/85 to-white/70 backdrop-blur-2xl backdrop-saturate-200 rounded-full border border-white/90 px-4 sm:px-6 py-2 shadow-[inset_0_1px_2px_rgba(255,255,255,0.9),0_12px_36px_rgba(15,23,42,0.08)] flex items-center justify-between gap-3 transition-all">
         {/* Brand Logo */}
         <Link to="/" className="group flex items-center shrink-0">
           <PelitaLogo size="md" variant="horizontal" className="group-hover:scale-102 transition-transform duration-150" />
         </Link>
 
-        {/* Desktop Public Navigation (Structured & Overflow-Proof) */}
+        {/* Desktop Public Navigation */}
         <nav className="hidden md:flex items-center gap-1.5 bg-white/50 backdrop-blur-md p-1 rounded-full border border-white/70 shadow-inner">
           <NavLink
             to="/"
@@ -112,30 +117,35 @@ export const PublicNavbar: React.FC = () => {
             )}
           </NavLink>
 
-          {/* Eksplorasi Dropdown Menu */}
-          <div className="relative">
+          {/* Fitur & Regulasi Hover Dropdown Menu */}
+          <div
+            className="relative"
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+          >
             <button
               type="button"
-              onClick={() => setIsExploreOpen(!isExploreOpen)}
-              className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all duration-150 active:scale-95 whitespace-nowrap ${
-                isExploreOpen || ['/radar', '/calculator', '/stats', '/regulations'].includes(location.pathname)
-                  ? 'bg-[#1E2C4F] text-white shadow-xs'
+              className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all duration-150 active:scale-95 whitespace-nowrap cursor-pointer ${
+                isExploreActive
+                  ? 'bg-[#BA3801] text-white shadow-[0_2px_8px_rgba(186,56,1,0.35)]'
+                  : isExploreOpen
+                  ? 'text-slate-900 bg-white/80'
                   : 'text-slate-700 hover:text-slate-900 hover:bg-white/70'
               }`}
             >
-              <Compass className="w-3.5 h-3.5" />
-              <span>Eksplorasi Publik</span>
+              <Compass className={`w-3.5 h-3.5 ${isExploreActive ? 'text-white' : 'text-slate-600'}`} />
+              <span>Fitur &amp; Regulasi</span>
               <ChevronDown
                 className={`w-3 h-3 transition-transform duration-200 ${
-                  isExploreOpen ? 'rotate-180 text-white' : 'text-slate-400'
-                }`}
+                  isExploreOpen ? 'rotate-180' : ''
+                } ${isExploreActive ? 'text-white' : 'text-slate-500'}`}
               />
             </button>
 
             {isExploreOpen && (
-              <div className="absolute left-0 mt-3 w-72 bg-white border border-slate-200/90 rounded-3xl p-2.5 shadow-2xl space-y-1 z-50 text-left animate-fadeIn">
+              <div className="absolute left-0 mt-2 w-72 bg-white border border-slate-200/90 rounded-3xl p-2.5 shadow-2xl space-y-1 z-50 text-left animate-fadeIn">
                 <span className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-wider px-3 pt-1 block">
-                  Pusat Data &amp; Regulasi
+                  Pusat Fitur &amp; Regulasi
                 </span>
                 {exploreLinks.map((item) => {
                   const Icon = item.icon;
@@ -146,7 +156,7 @@ export const PublicNavbar: React.FC = () => {
                       onClick={() => setIsExploreOpen(false)}
                       className={({ isActive }) =>
                         `flex items-start gap-2.5 p-2 rounded-2xl transition-all ${
-                          isActive ? 'bg-[#BA3801] text-white' : 'text-slate-800 hover:bg-slate-50'
+                          isActive ? 'bg-[#BA3801] text-white shadow-2xs' : 'text-slate-800 hover:bg-slate-50'
                         }`
                       }
                     >
@@ -192,7 +202,7 @@ export const PublicNavbar: React.FC = () => {
           </NavLink>
         </nav>
 
-        {/* Auth / Action Section (Always Strictly Contained) */}
+        {/* Auth / Action Section */}
         <div className="flex items-center gap-2 shrink-0">
           {userName ? (
             <div className="flex items-center gap-1.5 shrink-0">
